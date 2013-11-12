@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 16.0.3, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1"
+	 id="svg2403" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:svg="http://www.w3.org/2000/svg" xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" inkscape:export-ydpi="90" inkscape:export-filename="caret.png" sodipodi:docname="logout.svg" inkscape:export-xdpi="90" inkscape:version="0.48.3.1 r9886"
+	 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="10px" height="10px"
+	 viewBox="0 0 10 10" enable-background="new 0 0 10 10" xml:space="preserve">
+<sodipodi:namedview  fit-margin-left="0" fit-margin-top="0" inkscape:cy="6.0978375" inkscape:cx="3.6223673" inkscape:zoom="25.279067" showgrid="false" guidetolerance="10" gridtolerance="10" objecttolerance="10" borderopacity="1" bordercolor="#666666" pagecolor="#ffffff" id="namedview3047" inkscape:pageshadow="2" fit-margin-bottom="0" inkscape:pageopacity="0" inkscape:window-height="800" inkscape:window-x="0" inkscape:window-width="1280" inkscape:window-y="-31" inkscape:window-maximized="1" fit-margin-right="0" inkscape:current-layer="svg2403">
+	</sodipodi:namedview>
+<path id="path3023" inkscape:connector-curvature="0" sodipodi:nodetypes="cccc" display="none" opacity="0.5" enable-background="new    " d="
+	M1,2l4,8l4-7.989L1,2z"/>
+<path id="path3023_1_" inkscape:connector-curvature="0" sodipodi:nodetypes="cccc" fill="#014260" enable-background="new    " d="
+	M1,2l4,8l4-7.989L1,2z"/>
+<linearGradient id="path3716_1_" gradientUnits="userSpaceOnUse" x1="-304.3159" y1="423.6563" x2="-304.3159" y2="415.5115" gradientTransform="matrix(1.0526 0 0 -0.9844 325.3329 418.0323)">
+	<stop  offset="0" style="stop-color:#FFFFFF"/>
+	<stop  offset="1" style="stop-color:#E6E6E6"/>
+</linearGradient>
+<path id="path3716" inkscape:connector-curvature="0" sodipodi:nodetypes="cccc" display="none" fill="url(#path3716_1_)" d="M1,1
+	l4,8l4-7.989L1,1z"/>
+</svg>

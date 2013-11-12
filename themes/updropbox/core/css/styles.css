@@ -1,0 +1,219 @@
+
+/*  Theme example. Override the main style and make links red */
+
+/*HEADERS*/
+#streifen {
+	width:100%;
+	height:15px;
+	background:#014260;
+}
+
+#body-login footer {
+	background:#fff;
+	background-image: url('../img/up_large.png');
+	min-height:200px;
+	background-repeat:no-repeat;
+	background-position:center center;
+	background-color:#ddd;
+}
+#body-login footer p{
+	display:none;
+}
+
+#body-login #header { 
+	margin: -2em auto 0; 
+	text-align:center; 
+	height:10em; 
+	padding:1em 0 .5em;
+	-moz-box-shadow:0 0 0; 
+	-webkit-box-shadow:0 0 0 0; 
+	box-shadow:0 0 0;
+	background:none !important; 
+	background-color:#ededed !important;
+	
+	}
+	
+#body-login #header img{ 
+	margin-top:30px;
+	}
+	
+#body-user #header, #body-settings #header {
+position: fixed;
+top: 0;
+left: 0;
+right: 0;
+z-index: 100;
+height: 65px;
+line-height: 2.5em;
+background: #ececec !important;
+-moz-box-shadow: 0 0 5px #888;
+-webkit-box-shadow: 0 0 5px#888;
+box-shadow: 0 0 5px #888;
+
+}
+
+.searchbox input[type="search"] {
+	-moz-border-radius: 0em;
+	-webkit-border-radius: 0em;
+	border-radius: 0em;
+	margin-top: 20px;
+}
+
+#settings {
+	color: #014260;
+	text-shadow: 0 0px 0 #000;
+}
+
+span#expand {
+	display: inline-block;
+	background: #d0dae3;
+	margin-top: 12px;
+	margin-right: 22px;
+	height: 25px;
+	padding-bottom:0;
+	padding-top:0;
+	padding-left: 1em;
+	padding-right: 1em;
+	line-height: 26px;
+}
+
+#expanddiv {
+	border-bottom-left-radius: 0px;
+	background-color: #d0dae3;
+	border-left: 0px #333 solid;
+	-moz-box-shadow: 0 0 0px rgb(29,45,68);
+	-webkit-box-shadow: 0 0 0px rgb(29,45,68);
+	box-shadow: 0 0 0px rgb(29,45,68);
+	right: 22px;
+	top: 44px;
+	border-bottom:0px;
+}
+
+#expanddiv a {
+
+-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=70)";
+filter: alpha(opacity=100);
+opacity: 1;
+color:#014260;
+}
+
+#expand:hover, #expand:focus, #expand:active {
+	text-decoration: underline;
+	color: #014260;
+	
+}
+
+#controls {
+	height: 4.8em;
+	-moz-box-shadow: 0 0px 0px #000;
+	-webkit-box-shadow: 0 -0px 0px #000;
+	box-shadow: 0 -0px 0px #000;
+}
+
+.actions {
+	margin-top: 1em;
+}
+
+#filestable {
+	top: 67px !important;
+}
+
+#navigation, #content-wrapper {
+	padding-top: 5.5em;
+}
+
+#navigation {
+	background: #014260; 
+	background-image:none;
+}
+
+#navigation a span {
+
+	text-shadow: #000 0 0px 0;
+
+}
+
+
+#content-wrapper {
+	padding-top: 5em;
+}
+
+#login form {
+	width: 30em;
+	padding-top:12px;
+	border-top:2px solid #d0dae3;
+	border-bottom:2px solid #d0dae3;
+
+}
+
+#login fieldset {
+	background:#ededed;
+	padding-left:1em;
+	padding-top:1em;	
+	padding-bottom:1em;
+}	
+
+	/* INPUTS */
+input[type="text"], input[type="password"], input[type="search"], input[type="number"], input[type="email"],
+textarea, select, button, .button, #quota, div.jp-progress, .pager li a {
+	-moz-border-radius:.0em; 
+	-webkit-border-radius:.0em; 
+	border-radius:.0em;
+	}
+	
+input[type="submit"], input[type="button"], button, .button, #quota, div.jp-progress, select, .pager li a {
+	-moz-border-radius:.0em; 
+	-webkit-border-radius:.0em; 
+	border-radius:.0em;
+}		
+
+.primary, input[type="submit"].primary, input[type="button"].primary, button.primary, .button.primary {
+	border: 0px solid #1d2d44;
+	background: #35537a;
+	color: #ddd;
+	text-shadow: #000 0 01px 0;
+	-moz-box-shadow: 0 0 0px #000,0 0px 0px #6d7d94 inset;
+	-webkit-box-shadow: 0 0 0px #000,0 0px 0px #6d7d94 inset;
+	box-shadow: 0 0 0px #000,0 0px 0px #6d7d94 inset;
+	font-weight;normal;
+}
+
+.primary, input[type="submit"].primary, input[type="button"].primary, button.primary, .button.primary {
+	border: 0px solid #1d2d44;
+	background: #014260;
+	color: #ddd;
+	text-shadow: #000 0 01px 0;
+	-moz-box-shadow: 0 0 0px #000,0 0px 0px #6d7d94 inset;
+	-webkit-box-shadow: 0 0 0px #000,0 0px 0px #6d7d94 inset;
+	box-shadow: 0 0 0px #000,0 0px 0px #6d7d94 inset;
+	font-weight:normal;
+}
+
+.primary:hover, input[type="submit"].primary:hover, input[type="button"].primary:hover, button.primary:hover, .button.primary:hover, .primary:focus, input[type="submit"].primary:focus, input[type="button"].primary:focus, button.primary:focus, .button.primary:focus {
+	border: 0px solid #1d2d44;
+	background: #d0dae3;
+	color: #014260;
+	text-shadow: #000 0 01px 0;
+	-moz-box-shadow: 0 0 0px #000,0 0px 0px #6d7d94 inset;
+	-webkit-box-shadow: 0 0 0px #000,0 0px 0px #6d7d94 inset;
+	box-shadow: 0 0 0px #000,0 0px 0px #6d7d94 inset;
+	font-weight:normal;
+}
+
+#login #adminlogin, #login #adminpass, #login #user, #login #password {
+	width: 15.7em!important;
+	padding-left: 1.8em;
+}
+
+input[name="password-clone"] {
+	width: 15.7em!important;
+	padding-left: 1.8em;
+}
+
+#show + label {
+	right: 2em
+	}
+	
+#body-login #submit.login {
+	margin-right: 17px;
+}
