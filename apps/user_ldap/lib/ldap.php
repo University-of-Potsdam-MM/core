@@ -85,13 +85,13 @@ class LDAP implements ILDAPWrapper {
 		return $this->invokeLDAPMethod('read', $link, $baseDN, $filter, $attr);
 	}
 
-	public function search($link, $baseDN, $filter, $attr) {
-		return $this->invokeLDAPMethod('search', $link, $baseDN,
-										$filter, $attr);
+	public function search($link, $baseDN, $filter, $attr, $attrsonly = 0, $limit = 0) {
+		return $this->invokeLDAPMethod('search', $link, $baseDN, $filter,
+										$attr, $attrsonly, $limit);
 	}
 
 	public function setOption($link, $option, $value) {
-		$this->invokeLDAPMethod('set_option', $link, $option, $value);
+		return $this->invokeLDAPMethod('set_option', $link, $option, $value);
 	}
 
 	public function sort($link, $result, $sortfilter) {

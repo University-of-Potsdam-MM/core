@@ -29,6 +29,8 @@ namespace OCA\Encryption;
  */
 class Helper {
 
+	private static $tmpFileMapping; // Map tmp files to files in data/user/files
+
 	/**
 	 * @brief register share related hooks
 	 *
@@ -59,7 +61,10 @@ class Helper {
 	 */
 	public static function registerFilesystemHooks() {
 
+		\OCP\Util::connectHook('OC_Filesystem', 'rename', 'OCA\Encryption\Hooks', 'preRename');
 		\OCP\Util::connectHook('OC_Filesystem', 'post_rename', 'OCA\Encryption\Hooks', 'postRename');
+		\OCP\Util::connectHook('OC_Filesystem', 'post_delete', 'OCA\Encryption\Hooks', 'postDelete');
+		\OCP\Util::connectHook('OC_Filesystem', 'delete', 'OCA\Encryption\Hooks', 'preDelete');
 	}
 
 	/**
@@ -274,7 +279,7 @@ class Helper {
 		$split = explode('/', $trimmed);
 
 		// it is not a file relative to data/user/files
-		if (count($split) < 2 || $split[1] !== 'files') {
+		if (count($split) < 2 || ($split[1] !== 'files' && $split[1] !== 'cache')) {
 			return false;
 		}
 
@@ -370,7 +375,14 @@ class Helper {
 	 * @return bool true if requirements are met
 	 */
 	public static function checkRequirements() {
-		return extension_loaded('openssl');
+		$result = true;
+
+		//openssl extension needs to be loaded
+		$result &= extension_loaded("openssl");
+		// we need php >= 5.3.3
+		$result &= version_compare(phpversion(), '5.3.3', '>=');
+
+		return (bool) $result;
 	}
 
 	/**
@@ -415,6 +427,28 @@ class Helper {
 	 */
 	public static function escapeGlobPattern($path) {
 		return preg_replace('/(\*|\?|\[)/', '[$1]', $path);
+	}
+
+	/**
+	 * @brief remember from which file the tmp file (getLocalFile() call) was created
+	 * @param string $tmpFile path of tmp file
+	 * @param string $originalFile path of the original file relative to data/
+	 */
+	public static function addTmpFileToMapper($tmpFile, $originalFile) {
+		self::$tmpFileMapping[$tmpFile] = $originalFile;
+	}
+
+	/**
+	 * @brief get the path of the original file
+	 * @param string $tmpFile path of the tmp file
+	 * @return mixed path of the original file or false
+	 */
+	public static function getPathFromTmpFile($tmpFile) {
+		if (isset(self::$tmpFileMapping[$tmpFile])) {
+			return self::$tmpFileMapping[$tmpFile];
+		}
+
+		return false;
 	}
 }
 

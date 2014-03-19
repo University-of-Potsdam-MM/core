@@ -83,7 +83,7 @@ class OC_Files {
 			if ($basename) {
 				$name = $basename . '.zip';
 			} else {
-				$name = 'owncloud.zip';
+				$name = 'download.zip';
 			}
 			
 			set_time_limit($executionTime);
@@ -109,15 +109,13 @@ class OC_Files {
 			$zip = false;
 			$filename = $dir . '/' . $files;
 			$name = $files;
+			if ($xsendfile && OC_App::isEnabled('files_encryption')) {
+				$xsendfile = false;
+			}
 		}
 		OC_Util::obEnd();
 		if ($zip or \OC\Files\Filesystem::isReadable($filename)) {
-			if ( preg_match( "/MSIE/", $_SERVER["HTTP_USER_AGENT"] ) ) {
-				header( 'Content-Disposition: attachment; filename="' . rawurlencode($name) . '"' );
-			} else {
-				header( 'Content-Disposition: attachment; filename*=UTF-8\'\'' . rawurlencode($name)
-													 . '; filename="' . rawurlencode($name) . '"' );
-			}
+			OC_Response::setContentDispositionHeader($name, 'attachment');
 			header('Content-Transfer-Encoding: binary');
 			OC_Response::disableCaching();
 			if ($zip) {
@@ -133,6 +131,9 @@ class OC_Files {
 				}
 				if ($xsendfile) {
 					list($storage) = \OC\Files\Filesystem::resolvePath(\OC\Files\Filesystem::getView()->getAbsolutePath($filename));
+					if ($storage instanceof \OC\Files\Storage\Wrapper\Wrapper) {
+						$storage = $storage->getWrapperStorage();
+					}
 					if ($storage instanceof \OC\Files\Storage\Local) {
 						self::addSendfileHeader(\OC\Files\Filesystem::getLocalFile($filename));
 					}

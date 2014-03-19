@@ -51,6 +51,10 @@ class OC_Util {
 			self::$rootMounted = true;
 		}
 
+		if ($user != '' && !OCP\User::userExists($user)) {
+			return false;
+		}
+
 		//if we aren't logged in, there is no use to set up the filesystem
 		if( $user != "" ) {
 			\OC\Files\Filesystem::addStorageWrapper(function($mountPoint, $storage){
@@ -437,9 +441,9 @@ class OC_Util {
 			);
 			$webServerRestart = true;
 		}
-		if(version_compare(phpversion(), '5.3.8', '<')) {
+		if(version_compare(phpversion(), '5.3.3', '<')) {
 			$errors[] = array(
-				'error'=>'PHP 5.3.8 or higher is required.',
+				'error'=>'PHP 5.3.3 or higher is required.',
 				'hint'=>'Please ask your server administrator to update PHP to the latest version.'
 					.' Your PHP version is no longer supported by ownCloud and the PHP community.'
 			);
@@ -580,7 +584,7 @@ class OC_Util {
 		// Check if we are a user
 		if( !OC_User::isLoggedIn()) {
 			header( 'Location: '.OC_Helper::linkToAbsolute( '', 'index.php',
-				array('redirectUrl' => OC_Request::requestUri())
+				array('redirect_url' => OC_Request::requestUri())
 			));
 			exit();
 		}
@@ -875,6 +879,14 @@ class OC_Util {
 	}
 
 	/**
+	 * @brief Check if a PHP version older then 5.3.8 is installed.
+	 * @return bool
+	 */
+	public static function isPHPoutdated() {
+		return version_compare(phpversion(), '5.3.8', '<');
+	}
+
+	/**
 	 * @brief Check if the ownCloud server can connect to the internet
 	 * @return bool
 	 */
@@ -1077,7 +1089,11 @@ class OC_Util {
 		}
 		// XCache
 		if (function_exists('xcache_clear_cache')) {
-			xcache_clear_cache(XC_TYPE_VAR, 0);
+			if (ini_get('xcache.admin.enable_auth')) {
+				OC_Log::write('core', 'XCache opcode cache will not be cleared because "xcache.admin.enable_auth" is enabled.', \OC_Log::WARN);
+			} else {
+				xcache_clear_cache(XC_TYPE_PHP, 0);
+			}
 		}
 		// Opcache (PHP >= 5.5)
 		if (function_exists('opcache_reset')) {

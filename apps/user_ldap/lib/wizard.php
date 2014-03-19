@@ -432,7 +432,6 @@ class Wizard extends LDAPUtility {
 				$this->configuration->setConfiguration($config);
 				\OCP\Util::writeLog('user_ldap', 'Wiz: detected Port '. $p, \OCP\Util::DEBUG);
 				$this->result->addChange('ldap_port', $p);
-				$this->result->addChange('ldap_tls', intval($t));
 				return $this->result;
 			}
 		}
@@ -568,6 +567,10 @@ class Wizard extends LDAPUtility {
 		//get a result set > 0 on a proper base
 		$rr = $this->ldap->search($cr, $base, 'objectClass=*', array('dn'), 0, 1);
 		if(!$this->ldap->isResource($rr)) {
+			$errorNo  = $this->ldap->errno($cr);
+			$errorMsg = $this->ldap->error($cr);
+			\OCP\Util::writeLog('user_ldap', 'Wiz: Could not search base '.$base.
+							' Error '.$errorNo.': '.$errorMsg, \OCP\Util::INFO);
 			return false;
 		}
 		$entries = $this->ldap->countEntries($cr, $rr);
@@ -793,10 +796,13 @@ class Wizard extends LDAPUtility {
 
 		\OCP\Util::writeLog('user_ldap', 'Wiz: Setting LDAP Options ', \OCP\Util::DEBUG);
 		//set LDAP options
-		$a = $this->ldap->setOption($cr, LDAP_OPT_PROTOCOL_VERSION, 3);
-		$c = $this->ldap->setOption($cr, LDAP_OPT_NETWORK_TIMEOUT, self::LDAP_NW_TIMEOUT);
+		$this->ldap->setOption($cr, LDAP_OPT_PROTOCOL_VERSION, 3);
+		$this->ldap->setOption($cr, LDAP_OPT_NETWORK_TIMEOUT, self::LDAP_NW_TIMEOUT);
 		if($tls) {
-			$this->ldap->startTls($cr);
+			$isTlsWorking = @$this->ldap->startTls($cr);
+			if(!$isTlsWorking) {
+				return false;
+			}
 		}
 
 		\OCP\Util::writeLog('user_ldap', 'Wiz: Attemping to Bind ', \OCP\Util::DEBUG);
@@ -810,7 +816,7 @@ class Wizard extends LDAPUtility {
 			if($ncc) {
 				throw new \Exception('Certificate cannot be validated.');
 			}
-			\OCP\Util::writeLog('user_ldap', 'Wiz: Bind succesfull with Port '. $port, \OCP\Util::DEBUG);
+			\OCP\Util::writeLog('user_ldap', 'Wiz: Bind successfull to Port '. $port . ' TLS ' . intval($tls), \OCP\Util::DEBUG);
 			return true;
 		}
 
@@ -1001,13 +1007,14 @@ class Wizard extends LDAPUtility {
 
 	private function getConnection() {
 		if(!is_null($this->cr)) {
-			return $cr;
+			return $this->cr;
 		}
 		$cr = $this->ldap->connect(
 			$this->configuration->ldapHost.':'.$this->configuration->ldapPort,
 			$this->configuration->ldapPort);
 
 		$this->ldap->setOption($cr, LDAP_OPT_PROTOCOL_VERSION, 3);
+		$this->ldap->setOption($cr, LDAP_OPT_REFERRALS, 0);
 		$this->ldap->setOption($cr, LDAP_OPT_NETWORK_TIMEOUT, self::LDAP_NW_TIMEOUT);
 		if($this->configuration->ldapTLS === 1) {
 			$this->ldap->startTls($cr);

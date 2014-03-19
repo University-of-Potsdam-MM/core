@@ -19,6 +19,11 @@
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
 #
+# Addition 17/12/2012 Frank Karlitschek (frank@owncloud.org)
+# Addition 17/03/2014 Robin McCorkell (rmccorkell@karoshi.org.uk)
+# On the official website http://www.phpclasses.org/smb4php the
+# license is listed as LGPL so we assume that this is
+# dual-licensed GPL/LGPL
 ###################################################################
 
 define ('SMB4PHP_VERSION', '0.8');
@@ -126,7 +131,7 @@ class smb {
 		// this put env is necessary to read the output of smbclient correctly
 		$old_locale = getenv('LC_ALL');
 		putenv('LC_ALL=en_US.UTF-8');
-		$output = popen (SMB4PHP_SMBCLIENT." -N {$auth} {$options} {$port} {$options} {$params} 2>/dev/null", 'r');
+		$output = popen ('TZ=UTC '.SMB4PHP_SMBCLIENT." -N {$auth} {$options} {$port} {$options} {$params} 2>/dev/null", 'r');
 		$gotInfo = false;
 		$info = array ();
 		$info['info']= array ();
@@ -160,7 +165,7 @@ class smb {
 					$i = ($mode == 'servers') ? array ($name, "server") : array ($name, "workgroup", $master);
 					break;
 				case 'files':
-					list ($attr, $name) = preg_match ("/^(.*)[ ]+([D|A|H|S|R]+)$/", trim ($regs[1]), $regs2)
+					list ($attr, $name) = preg_match ("/^(.*)[ ]+([D|A|H|S|R|N]+)$/", trim ($regs[1]), $regs2)
 						? array (trim ($regs2[2]), trim ($regs2[1]))
 						: array ('', trim ($regs[1]));
 					list ($his, $im) = array (
@@ -234,17 +239,10 @@ class smb {
 					trigger_error ("url_stat(): list failed for host '{$pu['host']}'", E_USER_WARNING);
 				break;
 			case 'share':
-				if ($o = smb::look ($pu)) {
-					$found = FALSE;
-					$lshare = strtolower ($pu['share']);  # fix by Eric Leung
-					foreach ($o['disk'] as $s) if ($lshare == strtolower($s)) {
-						$found = TRUE;
-						$stat = stat ("/tmp");
-						break;
-					}
-					if (! $found)
-						trigger_error ("url_stat(): disk resource '{$lshare}' not found in '{$pu['host']}'", E_USER_WARNING);
-				}
+				if (smb::execute("ls", $pu))
+					$stat = stat ("/tmp");
+				else
+					trigger_error ("url_stat(): disk resource '{$pu['share']}' not found in '{$pu['host']}'", E_USER_WARNING);
 				break;
 			case 'path':
 				if ($o = smb::execute ('dir "'.$pu['path'].'"', $pu)) {
