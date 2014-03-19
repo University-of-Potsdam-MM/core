@@ -24,8 +24,6 @@
 
 
 # ignore themes except the README
-/themes/*
-!/themes/README
 
 # just sane ignores
 .*.sw[po]
@@ -92,3 +90,4 @@ nbproject
 /tests/autotest*
 /tests/data/lorem-copy.txt
 /tests/data/testimage-copy.png
+
